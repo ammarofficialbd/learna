@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import "./page.css"; // Import your CSS file
 import left from "./../../img/icons8-back-to-50.png";
 import right from "./../../img/icons8-next-page-50.png";
-import Thumb from "./../../img/thub01.png";
 import { FcLike } from "react-icons/fc";
 import axios from "axios";
 import Loading from "./Loading";
@@ -73,7 +72,7 @@ const Courses = () => {
   }
   ]; */
 
-  const slides = [];
+ // const slides = [];
   //const totalSlides = data.length; // Set the total number of slides
 
   //console.log(box);
