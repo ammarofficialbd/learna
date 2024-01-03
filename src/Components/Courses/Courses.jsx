@@ -121,7 +121,7 @@ const Courses = () => {
         const response = await axios.get("http://localhost:8080/CData");
 
         // Set the fetched data to the state
-        setData(response.data.CData);
+        setData(response.data);
 
         // Set loading to false after the data is fetched
         setLoading(false);
