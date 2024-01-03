@@ -1,0 +1,19 @@
+.navbar ul{
+    margin-left: -44px;
+}
+
+.navbar ul li{
+    padding-right: 2rem;
+    list-style-type: none;
+}
+
+.navbar ul li button{
+    border: none;
+    background-color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+font-size: larger;
+}
+.navbar ul li button:hover{
+    color: var(--amber-600);
+}

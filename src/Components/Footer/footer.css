@@ -1,0 +1,10 @@
+.footer li{
+ list-style-type: none;
+ font-size: 16px;
+}
+
+.foot-el li{
+ font-size: 1rem;
+ padding: 2px;
+ padding-bottom: 4px;
+}

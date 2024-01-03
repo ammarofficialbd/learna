@@ -1,0 +1,18 @@
+.sec-course-details {
+
+
+}
+.wh-learn .text-field ul{
+    padding: 12px 6px;
+    font-size: 14px;
+    margin-top: -20px;
+    list-style-type: none;
+}
+.wh-learn .text-field ul li{
+    padding: 16px 6px;
+    font-size: 14px;
+    list-style-type: none;
+}
+.wh-learn .text-field ul li::before{
+    content: '✅ ';
+}

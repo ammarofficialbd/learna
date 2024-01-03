@@ -1,0 +1,14 @@
+.lr-line::before{
+   content: '';
+   margin-top: 0rem;
+   flex: 1;
+   border-top: 1px solid;
+   border-color: #d2d6dc;
+}
+.lr-line::after{
+    content: '';
+    margin-top: 0rem;
+    flex: 1;
+    border-top: 1px solid;
+    border-color: #d2d6dc;
+ }

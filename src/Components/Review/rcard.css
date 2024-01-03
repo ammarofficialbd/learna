@@ -1,0 +1,10 @@
+.rcard-user-area img{
+height: 3rem;
+}
+
+.course-name img{
+ height: 3rem;
+}
+.border-top{
+    border-top: 1px solid var(--grey-400);
+   }

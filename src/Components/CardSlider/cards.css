@@ -1,0 +1,69 @@
+.card{
+  height: 350px;
+  position: relative;
+  cursor: pointer;
+}
+.list-items {
+  list-style: none;
+}
+
+.list-items li:before {
+  content: ' ✓ ';
+}
+.rating {
+    display: flex;
+    font-size: 24px;
+  }
+
+  .star {
+    cursor: pointer;
+  }
+
+  .star:before {
+    content: '★';
+    color: #ddd;
+    transition: color 0.2s;
+  }
+
+  .star:hover:before,
+  .star:hover ~ .star:before,
+  .star.checked:before,
+  .star.checked ~ .star:before {
+    color: #cc9406; /* Star color when selected or on hover */
+  }
+  .love{
+    position: relative;
+    border: 1px solid var(--green-700);
+    height: 3rem;
+  }
+  .like-icon{
+      position: absolute;
+      left: 16px;
+      top: 14px;
+  }
+  .love:hover{
+     background: var(--grey-300);
+     cursor: pointer;
+}
+.card:hover img{
+  opacity: 0.8;
+}
+.hover-content {
+  position: absolute;
+  top: -2rem;
+  left: 105%;
+  opacity: 0;
+  background-color: #fff;
+  /* visibility: hidden; */
+  z-index: 99;
+  transition: all 1s ease-in-out;
+}
+.hover-content p{
+  font-size: .8rem !important;
+}
+/* Hover effect */
+.card:hover .hover-content {
+  opacity: 1;
+}
+
+
