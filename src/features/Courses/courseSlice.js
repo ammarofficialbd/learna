@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchAllCourses,fetchCoursesByFilters } from './courseAPI';
 
+
 const initialState = {
   courses: [],
   status: 'idle',
@@ -16,8 +17,8 @@ export const fetchAllCoursesAsync = createAsyncThunk(
 );
 export const fetchCoursesByFiltersAsync = createAsyncThunk(
   'course/fetchCoursesByFilters',
-  async (filter) => {
-    const response = await fetchCoursesByFilters(filter);
+  async ({filter, pagination}) => {
+    const response = await fetchCoursesByFilters(filter, pagination);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -50,7 +51,7 @@ export const courseSlice = createSlice({
   },
 });
 
-export const { increment } = courseSlice.actions;
+//export const { increment } = courseSlice.actions;
 
 export const selectAllCourses= (state) => state.course.courses;
 

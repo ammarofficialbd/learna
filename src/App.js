@@ -6,6 +6,7 @@ import CoursePage from "./Pages/CoursePage/CoursePage";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from "./Pages/HomePage";
 import CourseDetailPage from "./Pages/CoursePage/CourseDetailPage";
+import stackHubPage from './Pages/StackhHub/stackHubPage';
 
 function App() {
   const router = createBrowserRouter([
@@ -16,6 +17,10 @@ function App() {
     {
       path: "/courses",
       element: <CoursePage/>,
+    },
+    {
+      path: "/stackhub",
+      element: <stackHubPage/>,
     },
     {
       path: "/single",

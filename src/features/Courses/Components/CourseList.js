@@ -13,103 +13,97 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
-import { fetchAllCoursesAsync, fetchCoursesByFiltersAsync, selectAllCourses } from "../courseSlice";
+import {
+  fetchAllCoursesAsync,
+  fetchCoursesByFiltersAsync,
+  selectAllCourses,
+} from "../courseSlice";
 import { NavLink } from "react-router-dom";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { useState } from "react";
 import { Pagination } from 'swiper/modules';
-
+const ITEMS_PER_PAGE = 10;
+const totalItems = 50;
 const filters = [
-  
- {
-    id: 'category',
-    name: 'Category',
+  {
+    id: "category",
+    name: "Category",
     category: [
-      { value: 'Dev', label: 'Development', checked: false },
-      { value: 'Design', label: 'Design', checked: false },
-      { value: 'Language', label: 'Language', checked: true },
-      { value: 'DSA', label: 'DSA', checked: false },
-      { value: 'DataScience', label: 'Data-Science', checked: false },
+      { value: "Dev", label: "Development", checked: false },
+      { value: "Design", label: "Design", checked: false },
+      { value: "Language", label: "Language", checked: true },
+      { value: "DSA", label: "DSA", checked: false },
+      { value: "DataScience", label: "Data-Science", checked: false },
     ],
   },
   {
-    id: 'topic',
-    name: 'Topic',
+    id: "topic",
+    name: "Topic",
     topic: [
-      { value: 'web', label: 'Web Development', checked: false },
-      { value: 'devops', label: 'DevOps', checked: false },
-      { value: 'docker', label: 'Docker', checked: false },
-      { value: 'html', label: 'HTML', checked: false },
-      { value: 'css', label: 'CSS', checked: false },
-      { value: 'javascript', label: 'Javascript', checked: false },
-      { value: 'python', label: 'Python', checked: false},
-
+      { value: "web", label: "Web Development", checked: false },
+      { value: "devops", label: "DevOps", checked: false },
+      { value: "docker", label: "Docker", checked: false },
+      { value: "html", label: "HTML", checked: false },
+      { value: "css", label: "CSS", checked: false },
+      { value: "javascript", label: "Javascript", checked: false },
+      { value: "python", label: "Python", checked: false },
     ],
   },
-]
+];
 
 const section = filters[0];
 const tSection = filters[1];
 
 //console.log(filters[0].id)
 export default function CourseList() {
-
   const dispatch = useDispatch();
   let course = useSelector(selectAllCourses);
   const [filter, setFilter] = useState({});
-  const [page, setPage] = useState(0)
-  const ITEAM_PER_PAGE = 10;
-  //console.log(typeof course);
-  /// console.log(course.CoursesData);
-
-
+  const [page, setPage] = useState(1);
+    
+ // console.log(page);
+ // console.log(ITEMS_PER_PAGE);
 
   //const courses = new Array (courses)
-  
-  const handleFilter = (section, option, e) =>{
-    const newFilter = {...filter}
-    
-    if (e.target.checked){
-       newFilter[section.id] = option.value ;
-       console.log( [section.id])
-    }else{
+
+  const handleFilter = (section, option, e) => {
+    const newFilter = { ...filter };
+
+    if (e.target.checked) {
+      newFilter[section.id] = option.value;
+      //console.log([section.id]);
+    } else {
       delete newFilter[section.id];
     }
-   
+
     setFilter(newFilter);
     //console.log(newFilter)
-    dispatch(fetchCoursesByFiltersAsync(newFilter))
-   //console.log(section.id , option.value)
-  }
-  const handleTopics = ( tSection, option,e) =>{
-    const newFilter = {...filter}
-    
-    if (e.target.checked){
-       newFilter[tSection.id] = option.value ;
-       console.log( [tSection.id])
-    }else{
+    //console.log(section.id , option.value)
+  };
+  const handleTopics = (tSection, option, e) => {
+    const newFilter = { ...filter };
+
+    if (e.target.checked) {
+      newFilter[tSection.id] = option.value;
+     // console.log([tSection.id]);
+    } else {
       delete newFilter[tSection.id];
     }
     setFilter(newFilter);
-    //console.log(newFilter)
-    dispatch(fetchCoursesByFiltersAsync(newFilter))
-   //console.log(section.id , option.value)
-  }
+   // console.log(newFilter)
+    //console.log(section.id , option.value)
+  };
 
-  const handlePage = ( e, page, pagination) =>{
-  
+  const handlePage = (page) => {
+    
     setPage(page);
-    //console.log(newFilter)
-    dispatch(fetchCoursesByFiltersAsync(pagination))
-   //console.log(section.id , option.value)
-  }
+    //console.log(section.id , option.value)
+  };
 
-
-  
   useEffect(() => {
-
-    dispatch(fetchAllCoursesAsync());
-  }, [dispatch]);
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    dispatch(fetchCoursesByFiltersAsync({pagination, filter}));
+  }, [dispatch,filter, page]);
   return (
     <div>
       <div className="sec-cate mx-auto container-xl px-20">
@@ -165,28 +159,29 @@ export default function CourseList() {
                   </AccordionItemHeading>
                   <AccordionItemPanel>
                     <form className="fil-form">
-                  {section.category && section.category.map((option, i) => {
-
-                    return (
-                      <> 
-                      <input
-                      key={i}
-                      type="checkbox"
-                      id={section.id}
-                      name={section.name}
-                      defaultValue={option.value}
-                      defaultChecked = {option.checked}
-                      onChange={e => handleFilter(section, option , e)}
-                    />
-                      <label htmlFor={option.label}>{option.label}</label>
-                    <br /> </>
-                     
-                    )
-                  })
-                  
-                  }
-                    
-                    
+                      {section.category &&
+                        section.category.map((option, i) => {
+                          return (
+                            <>
+                              <input
+                                key={i}
+                                type="checkbox"
+                                id={section.id}
+                                name={section.name}
+                                defaultValue={option.value}
+                                defaultChecked={option.checked}
+                                onChange={(e) =>
+                                  handleFilter(section, option, e)
+                                }
+                              />
+                                 
+                              <label htmlFor={option.label}>
+                                {option.label}
+                              </label>
+                              <br />  
+                            </>
+                          );
+                        })}
                     </form>
                   </AccordionItemPanel>
                 </AccordionItem>
@@ -196,28 +191,29 @@ export default function CourseList() {
                   </AccordionItemHeading>
                   <AccordionItemPanel>
                     <form>
-                    { tSection.topic && tSection.topic.map((option, i) => {
-
-                    return (
-                      <> 
-                      <input
-                      key={i}
-                      type="checkbox"
-                      id={tSection.id}
-                      name={tSection.name}
-                      defaultValue={option.value}
-                      defaultChecked = {option.checked}
-                      onChange={e => handleTopics(tSection, option,e)}
-                    />
-                      <label htmlFor={option.label}>{option.label}</label>
-                    <br /> </>
-                     
-                    )
-                  })
-                  
-                  }
-                     
-                
+                      {tSection.topic &&
+                        tSection.topic.map((option, i) => {
+                          return (
+                            <>
+                              <input
+                                key={i}
+                                type="checkbox"
+                                id={tSection.id}
+                                name={tSection.name}
+                                defaultValue={option.value}
+                                defaultChecked={option.checked}
+                                onChange={(e) =>
+                                  handleTopics(tSection, option, e)
+                                }
+                              />
+                                 
+                              <label htmlFor={option.label}>
+                                {option.label}
+                              </label>
+                              <br />  
+                            </>
+                          );
+                        })}
                     </form>
                   </AccordionItemPanel>
                 </AccordionItem>
@@ -248,19 +244,29 @@ export default function CourseList() {
                             </h5>
                             <span className="text-xsm"> {item.mentor} </span>
                             <div className="rating d-flex items-center justify-start gap-0">
-                              <span className="text-base pr-4 text-bold"> 4.5 </span>
+                              <span className="text-base pr-4 text-bold">
+                                  
+                                4.5  
+                              </span>
                               <div class="rating py-4">
                                 <span class="star checked"></span>
                                 <span class="star checked"></span>
                                 <span class="star checked"></span>
                                 <span class="star "></span>
                                 <span class="star"></span>
-                              
                               </div>
-                              <div className="text-sm"> <span className="text-xsm text-bold"> ({item.students})  </span> Students </div>
+                              <div className="text-sm">
+                                  
+                                <span className="text-xsm text-bold">
+                                    
+                                  ({item.students})  
+                                </span>  
+                                Students  
+                              </div>
                             </div>
                             <div className="d-flex justify-start gap-1">
-                              <li> {item.hours} Hours </li> <li>| All Levels </li>
+                              <li> {item.hours} Hours </li>  
+                              <li>| All Levels </li>
                               <li> | {item.lectures} lectures</li>
                             </div>
                             <button className="btn-0 btn-primary">
@@ -270,7 +276,7 @@ export default function CourseList() {
 
                           <div className="price text-lg text-center text-bold">
                             <div>
-                              <span> &#2547; </span>{" "}
+                              <span> &#2547; </span>  
                               {Math.round(
                                 item.price * (1 - item.discountPercent / 100)
                               )}
@@ -315,68 +321,68 @@ export default function CourseList() {
               {/* Pagination start */}
 
               <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-               
                 <div className="hidden d-flex sm:flex flex-1 items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-700">
-                      Showing <span className="font-medium">1</span> to{" "}
-                      <span className="font-medium">10</span> of{" "}
-                      <span className="font-medium">97</span> results
+                      Showing  
+                      <span className="font-medium ml-4 mr-2">
+                        {(page - 1) * ITEMS_PER_PAGE + 1}
+                      </span> 
+                      to  
+                      <span className="font-medium ml-2 mr-4">
+                        {page * ITEMS_PER_PAGE}
+                      </span>  
+                      of
+                      <span className="font-medium ml-4">{totalItems}</span> results
                     </p>
                   </div>
                   <div>
                     <table
                       className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-                      aria-label="Pagination" 
+                      aria-label="Pagination"
                     >
                       <tr>
-                        <td className="border-1 rounded-sm"> 
-                          <NavLink to='' className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">  
-                        <span className="sr-only">Previous</span>
-                        <MdKeyboardArrowLeft
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                        </NavLink>
+                        <td className="border-1 rounded-sm">
+                          <div
+                            to=""
+                            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                          >
+                            <span className="sr-only">Previous</span>
+                            <MdKeyboardArrowLeft
+                              className="h-5 w-5"
+                              aria-hidden="true"
+                            />
+                          </div>
                         </td>
-                        <td className="border-1 rounded-sm"> 
-                        <NavLink
-                        to=" "
-                        aria-current="page"
-                        className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        1
-                      </NavLink>
+                        {Array.from({
+                          length: Math.ceil(totalItems / ITEMS_PER_PAGE),
+                        }).map((el, index) => (
+                          <td className="border-1 rounded-sm">
+                            <div
+                              onClick={e => handlePage(index + 1)}
+                              aria-current="page"
+                              className={`relative z-10 inline-flex items-center ${index+1 === page? 'bg-indigo-600 text-white': 'text-grey-400'} px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer`}
+                            >
+                              {index+1}
+                            </div>
+                          </td>
+                        ))}
+
+                        <td className="border-1 rounded-sm">
+                          <div
+                            to=" "
+                            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                          >
+                            <span className="sr-only">Next</span>
+                            <MdKeyboardArrowRight
+                              className="h-5 w-5 text-center"
+                              aria-hidden="true"
+                            />
+                          </div>
                         </td>
-                     <td className="border-1 rounded-sm">  <NavLink
-                        to=" "
-                        className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                      >
-                        2
-                      </NavLink>
-                      </td>
-                     <td className="border-1 rounded-sm"> <NavLink
-                        to=" "
-                        className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                      >
-                        3
-                      </NavLink> </td>
-                      
-                      <td className="border-1 rounded-sm"> <NavLink
-                        to=" "
-                        className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                      >
-                        <span className="sr-only">Next</span>
-                        <MdKeyboardArrowRight
-                          className="h-5 w-5 text-center"
-                          aria-hidden="true"
-                        />
-                      </NavLink></td>
-                      
-                      </tr> 
+                      </tr>
                     </table>
                   </div>
-
                 </div>
               </div>
             </div>

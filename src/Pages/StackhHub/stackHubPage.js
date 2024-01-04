@@ -1,11 +1,16 @@
 import React from "react";
-import stackHub from './../../features/StackHub/Books/stackHub';
-
+import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Components/Footer/Footer";
+/* import stackHub from './../../features/StackHub/stackHub'; */
 function stackHubPage() {
   return (
     <div>
       <Navbar>
-        <stackHub />
+        <div> 
+<div> 
+  
+</div>
+        </div>
       </Navbar>
       <Footer />
     </div>
