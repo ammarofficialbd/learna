@@ -14,14 +14,13 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 import {
-  fetchAllCoursesAsync,
   fetchCoursesByFiltersAsync,
+  fetchCoursesByPaginationAsync,
   selectAllCourses,
 } from "../courseSlice";
 import { NavLink } from "react-router-dom";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { useState } from "react";
-import { Pagination } from 'swiper/modules';
 const ITEMS_PER_PAGE = 10;
 const totalItems = 50;
 const filters = [
@@ -95,15 +94,23 @@ export default function CourseList() {
   };
 
   const handlePage = (page) => {
-    
     setPage(page);
     //console.log(section.id , option.value)
   };
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchCoursesByFiltersAsync({pagination, filter}));
-  }, [dispatch,filter, page]);
+    dispatch(fetchCoursesByFiltersAsync(filter));
+    dispatch(fetchCoursesByPaginationAsync(pagination));
+  }, [dispatch,page,filter]);
+  useEffect(() => {
+    dispatch(fetchCoursesByFiltersAsync(filter));
+  }, [dispatch,filter]);
+  useEffect(() => {
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    dispatch(fetchCoursesByPaginationAsync(pagination));
+  }, [dispatch,page]);
+  
   return (
     <div>
       <div className="sec-cate mx-auto container-xl px-20">
